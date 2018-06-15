@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { deposit } from '../actions/balance';
+import { deposit, withdraw } from '../actions/balance';
 
 export class Wallet extends React.Component {
   state = { balance: undefined };
@@ -9,10 +9,9 @@ export class Wallet extends React.Component {
     this.setState({ balance: parseInt(e.target.value, 10) });
 	};
 	
-	deposit = () => {
-		console.log('deposit was clicked');
-		this.props.deposit(this.state.balance)
-	};
+	deposit = () => this.props.deposit(this.state.balance);
+
+	withdraw = () => this.props.withdraw(this.state.balance);
 
   render() {
     return (
@@ -21,6 +20,7 @@ export class Wallet extends React.Component {
         <br />
         <input className="input-wallet" onChange={this.updateBalance} />
 				<button className='btn-deposit' onClick={this.deposit}>Deposit</button>
+				<button className='btn-withdraw' onClick={this.withdraw}>Withdraw</button>
       </div>
     );
   }
@@ -36,6 +36,9 @@ function mapDispatchToProps(dispatch) {
 	return {
 		deposit: (balance) => {
 			dispatch(deposit(balance))
+		},
+		withdraw: (balance) => {
+			dispatch(withdraw(balance))
 		}
 	}
 }
